@@ -1,0 +1,86 @@
+/* ===== The pinned journey stage ===== */
+.journey-wrap { position: relative; z-index: 1; }
+.journey { position: relative; height: 100vh; height: 100svh; background: var(--night); }
+.stage { position: absolute; inset: 0; overflow: hidden; background: var(--night); }
+.world { position: absolute; inset: 0; pointer-events: none; }
+.layer { position: absolute; inset: 0; width: 100%; height: 100%; transform-origin: 50% 56%; will-change: transform; display: block; }
+.dream { transform-origin: 50% 56%; opacity: 0; }
+
+/* night */
+.n-moon { position: absolute; left: 70%; top: 16%; transform-origin: 50% 50%; }
+.moon-disc { width: clamp(56px, 9vw, 110px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 32%, #fff, #e4ecff 55%, #aebcf2); box-shadow: 0 0 60px 20px rgba(207, 227, 255, 0.35); }
+.win-glow { animation: pulse 3s ease-in-out infinite; }
+.fireflies { position: absolute; inset: 0; transform-origin: 50% 56%; }
+.fireflies i { position: absolute; left: var(--x); top: var(--y); width: 5px; height: 5px; border-radius: 50%; background: #ffe29a; box-shadow: 0 0 10px 3px rgba(255, 226, 154, 0.7); animation: fly var(--d) ease-in-out infinite alternate; animation-delay: var(--dl); }
+@keyframes fly { from { transform: translate(0, 0); opacity: 0.2; } 50% { opacity: 1; } to { transform: translate(24px, -30px); opacity: 0.3; } }
+
+/* the portal (centered, sized by --p; margins not transforms so GSAP owns transform) */
+.stage { --p: min(44vmin, 400px); }
+.portal, .tunnel { position: absolute; left: 50%; top: 56%; width: var(--p); height: var(--p); margin: calc(var(--p) / -2) 0 0 calc(var(--p) / -2); pointer-events: none; }
+.portal { z-index: 3; will-change: transform, opacity; }
+.tunnel { z-index: 4; }
+.portal-glow { position: absolute; inset: -48%; border-radius: 50%; background: radial-gradient(circle, rgba(185, 167, 255, 0.6) 0, rgba(255, 179, 217, 0.28) 34%, transparent 64%); animation: pulse 4s ease-in-out infinite; }
+.portal-rings { position: absolute; inset: 0; }
+.ring { position: absolute; border-radius: 50%; }
+.ring.r1 { inset: 0; background: conic-gradient(#ffb3d9, #b9a7ff, #cfe3ff, #ffe29a, #ffb3d9); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 11px), #000 calc(100% - 10px)); mask: radial-gradient(farthest-side, transparent calc(100% - 11px), #000 calc(100% - 10px)); animation: spin 22s linear infinite; }
+.ring.r2 { inset: 5%; background: conic-gradient(from 90deg, #cfe3ff, #ff9fcf, #b9a7ff, #cfe3ff); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px)); mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px)); animation: spin 14s linear infinite reverse; }
+.ring.r3 { inset: 11%; background: repeating-conic-gradient(#ffe29a 0 6deg, transparent 6deg 14deg); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px)); mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px)); animation: spin 30s linear infinite; }
+.rune { position: absolute; left: 50%; top: 50%; margin: -10px; width: 20px; height: 20px; display: grid; place-items: center; color: var(--gold); font-weight: 400; text-shadow: 0 0 12px var(--gold); transform: rotate(var(--a)) translateY(calc(var(--p) / -2 - 26px)); animation: twinkle 2.6s ease-in-out infinite; animation-delay: calc(var(--a) / 90 * -1s); }
+.portal-core { position: absolute; inset: 15%; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 50% 50%, #fff 0, #f6e9ff 7%, #c9b5ff 24%, #7b57e0 50%, #2d1d86 78%, #150f55 100%); box-shadow: inset 0 0 44px rgba(255, 255, 255, 0.55), 0 0 70px rgba(185, 167, 255, 0.8); }
+.swirl { position: absolute; inset: -25%; background: conic-gradient(transparent 0 18%, rgba(255, 255, 255, 0.4) 30%, transparent 44%, rgba(255, 179, 217, 0.4) 64%, transparent 80%); animation: spin 8s linear infinite; }
+.swirl.s2 { animation-duration: 13s; animation-direction: reverse; opacity: 0.7; }
+.t-ring { position: absolute; inset: 0; border-radius: 50%; border: 4px solid rgba(255, 255, 255, 0.85); box-shadow: 0 0 10px 2px rgba(185, 167, 255, 0.8); opacity: 0; will-change: transform, opacity; }
+.flash { position: absolute; inset: 0; z-index: 6; opacity: 0; pointer-events: none; background: radial-gradient(circle, #fff 0, #f0e6ff 55%, #c3b0ff 100%); }
+
+/* title + cue */
+.portal-title { position: absolute; z-index: 5; left: 0; right: 0; top: calc(var(--head) + 4svh); text-align: center; padding: 0 18px; pointer-events: none; }
+.portal-title h2 { font-size: clamp(2rem, 6.4vw, 4.2rem); text-shadow: 0 4px 30px rgba(10, 6, 60, 0.8), 0 0 40px rgba(185, 167, 255, 0.55); }
+.portal-sub { margin-top: 10px; color: var(--muted); font-size: clamp(0.92rem, 1.8vw, 1.1rem); }
+.scroll-cue { position: absolute; z-index: 5; bottom: 22px; left: 50%; transform: translateX(-50%); display: grid; justify-items: center; font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); pointer-events: none; }
+.scroll-cue i { font-style: normal; font-size: 1.4rem; animation: bounceY2 1.8s ease-in-out infinite; }
+@keyframes bounceY2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(7px); } }
+
+/* dreamland */
+.d-aurora { position: absolute; left: -10%; width: 120%; height: 36%; opacity: 0.55; background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(185, 167, 255, 0.55), rgba(159, 240, 208, 0.25) 55%, transparent 100%); }
+.d-aurora.a1 { top: 6%; transform: skewY(-5deg); }
+.d-aurora.a2 { top: 22%; transform: skewY(4deg); opacity: 0.35; background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255, 179, 217, 0.5), rgba(207, 227, 255, 0.2) 55%, transparent 100%); }
+.d-stars { position: absolute; inset: 0; }
+.d-stars-a, .d-stars-b { transform-origin: 50% 40%; }
+.d-moon { position: absolute; right: 11%; top: calc(var(--head) + 4%); width: clamp(54px, 8vw, 100px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 32%, #fffbe6, #ffe6a8); box-shadow: 0 0 60px 16px rgba(255, 226, 154, 0.45); }
+.d-tint { position: absolute; inset: 0; opacity: 0; }
+.d-tint::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(40, 20, 90, 0.35), rgba(20, 6, 52, 0.78)); transition: opacity 1.2s; }
+[data-core='fixed'] .d-tint::before { opacity: 0.15; }
+.d-glitch { position: absolute; inset: 0; opacity: 0; }
+.d-glitch::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0 2px, transparent 2px 5px); }
+.d-glitch i { position: absolute; left: 0; right: 0; height: var(--h, 6%); top: var(--t, 20%); background: linear-gradient(90deg, rgba(255, 60, 200, 0.3), rgba(60, 255, 230, 0.3), rgba(255, 60, 200, 0.3)); animation: glitch 1.7s steps(1) infinite; transition: opacity 1.2s; }
+.d-glitch i:nth-child(1) { --t: 12%; --h: 5%; }
+.d-glitch i:nth-child(2) { --t: 38%; --h: 9%; animation-delay: -0.5s; }
+.d-glitch i:nth-child(3) { --t: 64%; --h: 4%; animation-delay: -1s; }
+.d-glitch i:nth-child(4) { --t: 82%; --h: 7%; animation-delay: -1.4s; }
+[data-core='fixed'] .d-glitch i { opacity: 0.12; animation-play-state: paused; }
+@keyframes glitch { 0%, 100% { transform: translateX(0); opacity: 0; } 10% { transform: translateX(-30px); opacity: 1; } 20% { transform: translateX(24px); opacity: 0.4; } 30% { transform: translateX(0); opacity: 0; } 62% { transform: translateX(40px); opacity: 1; } 70% { transform: translateX(-12px); opacity: 0.2; } }
+.d-heal { position: absolute; inset: 0; opacity: 0; background: radial-gradient(circle at 50% 58%, rgba(255, 240, 180, 0.55), rgba(255, 179, 217, 0.26) 40%, transparent 72%); }
+
+/* scenes layer */
+.scenes { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+.scene { position: absolute; inset: 0; display: grid; place-items: center; padding: calc(var(--head) + 14px) clamp(14px, 4vw, 64px) 24px; opacity: 0; pointer-events: none; }
+.scene.is-active { pointer-events: auto; }
+.scene-inner { width: min(1180px, 100%); max-height: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 3vw, 44px); align-items: center; will-change: transform; }
+
+/* ===== reduced motion: calm vertical story, no pinning or camera moves ===== */
+.journey-wrap.rm .journey { height: auto; }
+.journey-wrap.rm .stage { position: relative; inset: auto; overflow: visible; background: transparent; clip-path: inset(0); }
+.journey-wrap.rm .world.dream { position: fixed; inset: 0; opacity: 1; transform: none; }
+.journey-wrap.rm .scenes { position: relative; inset: auto; }
+.journey-wrap.rm .scene { position: relative; inset: auto; opacity: 1; min-height: 100vh; min-height: 100svh; pointer-events: auto; }
+.rm-intro { position: relative; z-index: 6; min-height: 100vh; min-height: 100svh; display: grid; place-content: center; justify-items: center; gap: 28px; padding: calc(var(--head) + 24px) 18px 40px; background: var(--grad-night-dream); text-align: center; }
+[data-mood='starlight'] .rm-intro { background: var(--grad-night-star); }
+.rm-intro .portal-title { position: relative; top: auto; }
+.rm-portal { position: relative; width: var(--p); height: var(--p); }
+.rm-portal .portal { position: absolute; left: 0; top: 0; margin: 0; }
+.rm-intro { --p: min(46vmin, 360px); }
+
+@media (max-width: 720px) {
+  .n-moon { left: 76%; top: 27%; }
+  .scroll-cue { bottom: 52px; }
+}
